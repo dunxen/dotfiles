@@ -1,0 +1,58 @@
+
+  
+{{- if (eq .chezmoi.os "darwin") -}}
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ $brews := list
+     "bat"
+     "bitwarden-cli"
+     "curl"
+     "dockutil"
+     "exa"
+     "ffmpeg"
+     "gh"
+     "git"
+     "git-lfs"
+     "gnu-units"
+     "gnupg"
+     "go"
+     "golangci-lint"
+     "jq"
+     "node"
+     "openjdk"
+     "pinentry-mac"
+     "postgis"
+     "postgresql"
+     "pspg"
+     "ripgrep"
+     "tmux"
+     "wget"
+     "xz"
+     "yt-dlp" -}}
+{{ $casks := list
+     "vagrant"
+     "visual-studio-code"
+     "vlc"
+     "balenaetcher"
+     "google-cloud-sdk"
+     "signal"
+     "telegram" -}}
+
+{{ if eq .chezmoi.arch "amd64" -}}
+{{   $brews = concat $brews (list
+       "shellcheck") -}}
+{{   $casks = concat $casks (list
+       "virtualbox") -}}
+{{ end -}}
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+{{ range ($brews | sortAlpha | uniq) -}}
+brew "{{ . }}"
+{{ end -}}
+{{ range ($casks | sortAlpha | uniq) -}}
+cask "{{ . }}"
+{{ end -}}
+EOF
+{{ end -}}

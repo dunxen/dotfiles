@@ -1,0 +1,12 @@
+[user]
+	signingkey = C37B1C1D44C786EE
+	name = Duncan Dean
+	email = duncangleeddean@gmail.com
+[commit]
+	gpgsign = true
+[pull]
+	rebase = true
+[init]
+	defaultBranch = main
+[core]
+	editor = nvim
